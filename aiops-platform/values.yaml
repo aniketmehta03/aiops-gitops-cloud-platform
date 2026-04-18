@@ -1,0 +1,33 @@
+replicaCount: 2
+
+image:
+  repository: aniket036/aiops-app
+  tag: "v1"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8000
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+hpa:
+  minReplicas: 2
+  maxReplicas: 5
+  cpu: 70
+
+postgres:
+  user: devops
+  password: devops123
+  db: bookstore
+
+config:
+  db_host: ""
+  db_port: "5432"
