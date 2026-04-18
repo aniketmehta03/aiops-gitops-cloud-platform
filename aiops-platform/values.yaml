@@ -2,7 +2,7 @@ replicaCount: 4
 
 image:
   repository: aniket036/aiops-app
-  tag: 3bdde824be6a3a4695b6feccf7fb01ec7bb9ad40
+  tag: 6c3c19f5fcb3ee7aae3e3e41f95b237dfdba3602
   pullPolicy: IfNotPresent
 
 service:
