@@ -1,4 +1,4 @@
-# 🚀 Production-Grade DevOps CRUD Application (Ubuntu Setup)
+# 🚀 AIOPS-GITOPS-CLOUD-PLATFORM (Ubuntu Setup)
 
 ## 🎯 Problem Statement
 
