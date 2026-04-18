@@ -1,240 +1,178 @@
-# 🚀 Production-Grade DevOps CRUD Application (Ubuntu Setup)
+# AIOps GitOps Cloud Platform
 
-## 🎯 Problem Statement
+An end-to-end DevOps + AIOps platform showcasing how to **build, deploy, monitor, and analyze** a Kubernetes-based application using **GitOps**, **CI/CD**, **observability**, and **AI agents**.
 
-Design, build, containerize, deploy, automate, operate, and monitor a **production-grade CRUD web application** using modern DevOps practices.
+## What makes it unique
 
-The system must be:
+- **GitOps CD** with ArgoCD
+- **CI with immutable image tags** (GitHub SHA)
+- **Kubernetes + Helm** production-style deployments
+- **Observability stack** (Prometheus + Grafana)
+- **AIOps layer**: AI agents analyze Prometheus metrics and propose remediation
 
-- ✅ Fully Containerized
-- ✅ Kubernetes Deployed
-- ✅ Helm Managed
-- ✅ CI/CD Automated
-- ✅ GitOps Controlled
-- ✅ Cloud Provisioned using Terraform
-- ✅ Fully Monitored using Prometheus, Grafana & Loki
+## Architecture overview
 
----
+```text
+Developer push code
+  ↓
+GitHub Actions (CI)
+  ↓
+Docker image build + push
+  ↓
+Update Helm values.yaml (image tag)
+  ↓
+ArgoCD (GitOps CD)
+  ↓
+Kubernetes deployment (EKS)
+  ↓
+Prometheus (metrics collection)
+  ↓
+Grafana (dashboards)
+  ↓
+AI agent (AIOps analysis)
+```
 
-# 🧱 Application Requirements
+## Repository structure
 
-## 1️⃣ Application Layer
+```text
+.
+├── app/                 # FastAPI CRUD application
+├── ai-service/          # AI Agents (AIOps engine)
+├── helm/                # Helm charts
+├── kubernetes/          # Raw manifests (reference)
+├── terraform/           # AWS infrastructure (IaC)
+├── .github/workflows/   # CI pipelines
+├── docker-compose.yaml  # Local dev setup
+├── Dockerfile           # Production container build
+└── docs/                # Architecture & diagrams
+```
 
-Build a CRUD application:
+## Features
 
-- Backend: Node.js / Python / Go
-- Frontend: Optional (UI or API-only)
-- Database: PostgreSQL
+### Application layer
 
-### Features
+- FastAPI CRUD application
+- PostgreSQL database
+- Health checks (liveness/readiness)
+- Prometheus metrics endpoint at **`/metrics`**
 
-- Create record
-- Read record
-- Update record
-- Delete record
-- Persistent database storage
+### Containerization
 
-### Expose
+- Multi-stage Docker build
+- Lightweight Alpine-based image
+- Runs as **non-root** for security
 
-- REST APIs
+### Kubernetes deployment
 
----
+- Deployment + Service + HPA
+- Resource requests/limits and autoscaling
+- ConfigMap + Secret integration
+- Readiness and liveness probes
 
-# 🐳 Containerization Layer
+### Helm (production deployment)
 
-## 2️⃣ Docker
+- Parameterized configuration via `values.yaml`
+- Environment-ready deployments
+- Reusable templates
 
-Requirements:
+### CI/CD
 
-- Multi-stage Dockerfile
-- Alpine base images
-- Use `.dockerignore`
-- Use ENV variables for configs
-- Run as non-root user
-- Small optimized image size
-
----
-
-# 🧩 Local Orchestration
-
-## 3️⃣ Docker Compose
-
-Create `docker-compose.yaml` including:
-
-- backend
-- postgres
-
-Must include:
-
-- volumes
-- networks
-- environment variables
-- depends_on
-
-Support:
-
-- Hot reload development mode
-
-
----
-
-# ☸️ Kubernetes Layer
-
-## 5️⃣ Kubernetes
-
-Write YAML manifests for:
-
-- Backend Deployment
-- PostgreSQL StatefulSet + PVC
-- Services
-- Ingress
-
-Use:
-
-- Secrets
-- ConfigMaps
-
-Must demonstrate:
-
-- Scaling
-- Rollbacks
-- Zero downtime rollout
-
----
-
-# 📦 Helm Layer
-
-## 6️⃣ Helm
-
-Create a generic Helm chart:
-
-- Capable of deploying ANY backend
-
-Convert:
-
-- All Kubernetes YAML → Helm templates
-
-Use:
-
-- values.yaml
-- Environment-specific values files
-
----
-
-# 🔁 CI/CD Automation
-
-## 7️⃣ GitHub Actions
-
-### Pipeline A (main branch)
-
+**CI (GitHub Actions)**
 - Build Docker image
-- Tag image
+- Tag with GitHub SHA
 - Push to DockerHub / ECR
+- Auto-update Helm `values.yaml`
 
-### Pipeline B (feat/* or Dockerfile change)
+**CD (GitOps with ArgoCD)**
+- ArgoCD monitors Git repo and syncs automatically
+- Self-healing and pruning
+- No manual `kubectl apply`
 
-- Build new image
-- Push image
-- Auto-update `helm/values.yaml` image tag
-- Commit changes back to repo
+### Infrastructure (Terraform)
 
----
+- VPC, subnets, networking
+- EKS cluster
+- ECR repository
+- IAM roles
+- Remote state (S3 + DynamoDB)
 
-# 🔄 GitOps Deployment
+### Observability
 
-## 8️⃣ ArgoCD
+**Prometheus**
+- Scrapes `/metrics`
+- Collects application + cluster metrics
 
-Install ArgoCD using YAML.
+**Grafana**
+- Kubernetes dashboards
+- Custom app dashboards
+- Real-time monitoring
 
-Create:
+## AIOps layer (AI agents)
 
-- ArgoCD Project
-- ArgoCD Application
+This is the core differentiator of the project.
 
-ArgoCD must:
+### What it does
 
-- Auto Sync
-- Auto Heal
-- Auto Rollback
+- Fetches real-time metrics from Prometheus
+- Sends metrics to an AI model (Ollama / LLM)
+- Produces an explanation and remediation suggestion, for example:
 
-❌ No manual `kubectl apply` allowed
-
----
-
-# ☁️ Infrastructure as Code
-
-## 9️⃣ Terraform
-
-Provision:
-
-- VPC
-- Subnets
-- Internet Gateway
-- NAT Gateway
-- EC2
-- S3
-- IAM Role
-- ECR
-- EKS or ECS
-
-Must use:
-
-- Terraform Modules
-- Remote State (S3 + DynamoDB)
-- Variables
-
----
-
-# 📊 Observability Stack
-
-## 🔟 Monitoring
-
-Install using Helm:
-
-- Prometheus
-- Grafana
-- Loki
-
-Must display:
-
-- CPU usage
-- Memory usage
-- Pod count
-- Application logs
-
-Create Alerts:
-
-- High CPU usage
-- Pod crash
-
----
-
-# 📐 Architecture & Documentation
-
-## 1️⃣1️⃣ Required Deliverables
-
-You must submit:
-
-- Architecture Diagram
-- CI/CD Flow Diagram
-- GitOps Flow Diagram
-- Incident Response Documentation
-
----
-
-# 🏁 Final Output Expectations
-
-```
-Git Push
-   ↓
-CI Pipeline
-   ↓
-Docker Image Build
-   ↓
-Helm Values Update
-   ↓
-Kubernetes Deployment
-   ↓
-Metrics & Logs Visible
+```json
+{
+  "issue": "High CPU usage",
+  "reason": "Increased traffic load",
+  "solution": "Scale pods or optimize application"
+}
 ```
 
+### Use cases
+
+- Anomaly detection
+- Alert explanation
+- Root cause analysis
+- Intelligent troubleshooting
+
+## GitOps workflow (ArgoCD)
+
+```text
+Git push → CI → image build → Helm update → ArgoCD sync → deploy
+```
+
+## Quick start
+
+### Local development (Docker)
+
+```bash
+docker build -t aiops-app .
+docker compose up -d
+```
+
+### Helm deployment (Kubernetes)
+
+```bash
+helm lint helm/
+helm template aiops helm/
+helm upgrade --install aiops helm/ -n aiops
+```
+
+## CI/CD usage
+
+Push to `main`:
+
+```bash
+git push origin main
+```
+
+This triggers:
+- Build
+- Push
+- Helm update
+- ArgoCD deployment
+
+## Monitoring access (Grafana)
+
+```bash
+kubectl port-forward svc/monitoring-grafana -n monitoring 3000:80
+```
+
+Open `http://localhost:3000`.
