@@ -59,7 +59,7 @@ AI agent (AIOps analysis)
 ### Containerization
 
 - Multi-stage Docker build
-- Lightweight Alpine-based image
+- Lightweight Alpine-based images
 - Runs as **non-root** for security
 
 ### Kubernetes deployment
