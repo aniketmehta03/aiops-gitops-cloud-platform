@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fastapi
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aniketmehta03/aiops-gitops-cloud-platform.git
+    targetRevision: feature/app-deployment
+    path: aiops-platform
+    helm:
+      valueFiles:
+        - values.yaml            # use the chart's default values
+      parameters:
+        - name: namespace        # override value if needed
+          value: aiops
+  destination:
+    server: https://kubernetes.default.svc   # Replace with your Cluster Url, To get run: `argocd cluster list`
+    namespace: aiops         # deploy into production namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
