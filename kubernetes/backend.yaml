@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: aniket036/aiops-app:1.0
+          image: aniket036/aiops-app:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
